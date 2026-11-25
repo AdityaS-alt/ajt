@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.dypatil.ajt</groupId>
+    <artifactId>ajt-lab-experiments-1-to-6</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>AJT Lab Experiments 1 to 6</name>
+    <modules>
+        <module>Experiment_01_HTTP_Request/Code/AJT_Exp01_HTTP_Servlet</module>
+        <module>Experiment_02_HttpSession/Code/AJT_Exp02_HttpSession</module>
+        <module>Experiment_03_JSP_Form/Code/AJT_Exp03_JSP_Form</module>
+        <module>Experiment_04_JDBC_MySQL/Code/AJT_Exp04_JDBC_MySQL</module>
+        <module>Experiment_05_SMTP_Mail/Code/AJT_Exp05_SMTP_Mail</module>
+        <module>Experiment_06_WebSocket_Chat/Code/AJT_Exp06_WebSocket_Chat</module>
+    </modules>
+</project>
+

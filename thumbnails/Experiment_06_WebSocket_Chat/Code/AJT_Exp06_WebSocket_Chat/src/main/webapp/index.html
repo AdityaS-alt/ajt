@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-Time WebSocket Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        #messages { width: 32rem; max-width: 95%; height: 14rem; }
+        input { margin-top: 0.5rem; padding: 0.35rem; }
+        #message { width: 20rem; max-width: 60%; }
+        #status { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Real-Time Chat</h1>
+    <p id="status">Connecting...</p>
+    <textarea id="messages" readonly></textarea><br>
+    <input type="text" id="username" placeholder="Enter your name" maxlength="40">
+    <input type="text" id="message" placeholder="Enter message" maxlength="400">
+    <button type="button" id="sendButton">Send</button>
+
+    <script>
+        const scheme = window.location.protocol === "https:" ? "wss" : "ws";
+        const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
+        const socket = new WebSocket(`${scheme}://${window.location.host}${basePath}/chat`);
+        const messages = document.getElementById("messages");
+        const status = document.getElementById("status");
+        const username = document.getElementById("username");
+        const message = document.getElementById("message");
+        const sendButton = document.getElementById("sendButton");
+
+        socket.onopen = function () {
+            status.textContent = "Connected";
+        };
+
+        socket.onmessage = function (event) {
+            messages.value += event.data + "\n";
+            messages.scrollTop = messages.scrollHeight;
+        };
+
+        socket.onclose = function () {
+            status.textContent = "Disconnected. Refresh the page to reconnect.";
+            sendButton.disabled = true;
+        };
+
+        socket.onerror = function () {
+            status.textContent = "WebSocket error. Check Tomcat and the browser console.";
+        };
+
+        function sendMessage() {
+            const nameText = username.value.trim();
+            const messageText = message.value.trim();
+            if (!nameText || !messageText) {
+                alert("Enter both a name and a message.");
+                return;
+            }
+            if (socket.readyState !== WebSocket.OPEN) {
+                alert("The chat is not connected yet.");
+                return;
+            }
+            socket.send(`${nameText}: ${messageText}`);
+            message.value = "";
+            message.focus();
+        }
+
+        sendButton.addEventListener("click", sendMessage);
+        message.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
+
